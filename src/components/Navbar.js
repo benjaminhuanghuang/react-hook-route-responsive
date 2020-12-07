@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { MdFingerprint } from "react-icons/md";
+import { IconContext } from "react-icons/lib";
+
 //
 import "./Navbar.css";
 
@@ -14,6 +16,10 @@ function Navbar() {
 
   const handleClick = () => {
     setClick(!click);
+  };
+
+  const closeMobileMenu = () => {
+    setClick(false);
   };
 
   const showButton = () => {
@@ -32,46 +38,49 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar">
-        <div className="navbar-container container">
-          <Link to="/" className="navbar-logo">
-            <MdFingerprint className="navbar-icon" />
-          </Link>
-        </div>
-        <div className="menu-icon" onClick={handleClick}>
-          {click ? <FaTimes /> : <FaBars />}
-        </div>
-        <ul className={click ? "nav-menu active" : "nav-menu"}>
-          <li className="nav-item">
-            <Link to="/" className="nav-links">
-              Home
+      <IconContext.Provider value={{ color: "#fff" }}>
+        <div className="navbar">
+          <div className="navbar-container container">
+            <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+              <MdFingerprint className="navbar-icon" />
+              REACT
             </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/services" className="nav-links">
-              Services
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/products" className="nav-links">
-              Products
-            </Link>
-          </li>
-          <li className="nav-btn">
-            {button ? (
-              <Link to="/sign-up" className="btn-link">
-                <Button buttonStyle="btn--outline">Sign Up</Button>
+          </div>
+          <div className='menu-icon' onClick={handleClick}>
+            {click ? <FaTimes /> : <FaBars />}
+          </div>
+          <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <li className="nav-item">
+              <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                Home
               </Link>
-            ) : (
-              <Link to="/" className="btn-link">
-                <Button buttonStyle="btn--outline" buttonSize="btn--mobile">
-                  Sign Up
-                </Button>
+            </li>
+            <li className="nav-item">
+              <Link to="/services" className="nav-links" onClick={closeMobileMenu}>
+                Services
               </Link>
-            )}
-          </li>
-        </ul>
-      </div>
+            </li>
+            <li className="nav-item">
+              <Link to="/products" className="nav-links" onClick={closeMobileMenu}>
+                Products
+              </Link>
+            </li>
+            <li className="nav-btn">
+              {button ? (
+                <Link to="/sign-up" className="btn-link">
+                  <Button buttonStyle="btn--outline">Sign Up</Button>
+                </Link>
+              ) : (
+                <Link to="/" className="btn-link">
+                  <Button buttonStyle="btn--outline" buttonSize="btn--mobile" onClick={closeMobileMenu}>
+                    Sign Up
+                  </Button>
+                </Link>
+              )}
+            </li>
+          </ul>
+        </div>
+      </IconContext.Provider>
     </>
   );
 }
